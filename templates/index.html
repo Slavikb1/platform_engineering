@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+ <style>
+body {
+  background-image: url("../static/weather.jpg"); width=100%;
+}
+.dot {
+  height: 25px;
+  width: 25px;
+  background-color: #bbb;
+  border-radius: 50%;
+  position: fixed;
+  margin-bottom: 2px;
+  margin-left : 1px;
+}
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Weather app</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+</head>
+<body >
+<div class="text-center" style="
+    margin-bottom: 25px!important;
+    margin-top: 25px!important;">
+      <h1>Second Weather App</h1>
+</div>
+
+<div class="d-flex justify-content-center">
+    <div class="input-group w-auto">
+        <form action="/" method="POST">
+            <div class="input-group mb-3">
+                <input type="text" id="Search" name="Search" class="form-control" placeholder="City/Country"
+                      aria-label="Example input" aria-describedby="button-addon1" required/>
+                <button class="btn btn-primary" type="submit" value="submit" id="button-addon1" data-mdb-ripple-color="dark">
+                    Search
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div style="padding:15px"></div>
+
+<div class="input-group w-auto"></div>
+
+<div class="d-flex align-items-center justify-content-center" style="height: 25px;">
+    <div class="p-2 m-2 bg-info text-white shadow rounded-2"><h2>Country code: {{weather['country']}}</h2></div>
+    <div class="p-2 m-2 bg-info text-white shadow rounded-2"><h2>City: {{weather['city']}}</h2></div>
+</div>
+<div style="height: 70px;"></div>
+<!--openweathermap.org/img/...-->
+<div class="d-flex align-items-center justify-content-center" style="height: 250px;">
+{% if weather %}
+
+<form action="{{ url_for('dynamodb') }}" method="post">
+        <input type="hidden" name="arg" value="{{ weather }}">
+        <button type="submit">Download Data</button>
+    </form>
+
+    {% for i in range(7) %}
+<div >
+
+<div class="card border-primary mb-3" style="max-width: 18rem;" id="DIVData">
+    <div class="card-header"><b>DATE {{weather['date'][i]}}</b></div>
+    <div class="card-body text-primary" style="color: #534e9d !important"><b>{{weather['week'][i]}}</b></div>
+    <hr style="margin-top: 0px !important">
+        <div class="card-body text-primary">
+        <p class="card-text">DAY AVG  {{'%0.2f' % weather['day'][i]}}°C</p>
+        <p class="card-text">NIGHT AVG  {{'%0.2f' % weather['night'][i]}}°C</p>
+        <p class="card-text">humidity  {{'%0.2f' % weather['humidity'][i]}}%</p>
+        </div>
+    </div>
+</div>
+    {% endfor %}
+{% endif %}
+{% if error %}
+    <div class="d-flex align-items-center justify-content-center vh-100">
+            <div class="text-center row">
+                <div class=" col-md-6">
+                    <img src="https://cdn.pixabay.com/photo/2017/03/09/12/31/error-2129569__340.jpg" alt=""
+                        class="img-fluid">
+                </div>
+                <div class=" col-md-6 mt-5">
+                    <p class="fs-3"> <span class="text-danger">Opps!</span> City not found.</p>
+                    <p class="fs-3">
+                        The page you’re looking for doesn’t exist.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+{% endif %}
+</div>
+
+<a class="btn btn-danger" role="button" href="https://simplebucketpage.s3.amazonaws.com/small.jpg" download>
+  Download
+</a>
+
+<div style="text-align:center">
+  <h1>Round Dots / Circles</h1>
+  <span class="dot"></span>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>
+
+
