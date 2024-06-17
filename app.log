@@ -1,1 +1,31 @@
 error: no_data
+searched for: haifa
+Exception on / [POST]
+Traceback (most recent call last):
+  File "/home/slavik/github/platform_engineering/venv/lib/python3.10/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/slavik/github/platform_engineering/venv/lib/python3.10/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/slavik/github/platform_engineering/venv/lib/python3.10/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/slavik/github/platform_engineering/venv/lib/python3.10/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/slavik/github/platform_engineering/flaskapp.py", line 62, in index
+    city_metric.labels(city_name=city).inc()
+NameError: name 'city_metric' is not defined
+An exception occurred during a request.
+Traceback (most recent call last):
+  File "/home/slavik/github/platform_engineering/venv/lib/python3.10/site-packages/flask/app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/slavik/github/platform_engineering/venv/lib/python3.10/site-packages/flask/app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/slavik/github/platform_engineering/venv/lib/python3.10/site-packages/flask/app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/slavik/github/platform_engineering/venv/lib/python3.10/site-packages/flask/app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/slavik/github/platform_engineering/flaskapp.py", line 62, in index
+    city_metric.labels(city_name=city).inc()
+NameError: name 'city_metric' is not defined
+searched for: haifa
+searched for: haifa
+searched for: tel aviv
