@@ -13,5 +13,7 @@ requests==2.31.0
 Werkzeug==3.0.1
 boto3
 prometheus-flask-exporter
+dnspython==2.6.1
+pymongo==4.7.3
 #wheel
 #gunicorn

@@ -9,8 +9,6 @@ from dotenv import load_dotenv
 from prometheus_flask_exporter import PrometheusMetrics
 from prometheus_client import Counter, generate_latest
 
-
-
 load_dotenv()  # load data from .env file
 api_key = os.getenv("APIKey")  # grab the key from the file
 
@@ -42,8 +40,8 @@ app.logger.setLevel(logging.INFO)  # Set log level to INFO
 handler = logging.FileHandler('app.log')  # Log to a file
 app.logger.addHandler(handler)
 
-#view_metric = Counter('view', 'Product view', ['product'])
-#buy_metric = Counter('buy', 'Product buy', ['product'])
+# view_metric = Counter('view', 'Product view', ['product'])
+# buy_metric = Counter('buy', 'Product buy', ['product'])
 
 city_metric = Counter('city', 'Cities view', ['city_name'])
 
@@ -76,15 +74,16 @@ def index():  # POST is used to send data to a server to create/update a resourc
         'city': city,  # 1
         'date': final_weather_data[4]  # 7
     }
-    
-#    city_metric = Counter('city', 'Cities view', ['city_name'])
+
+    #    city_metric = Counter('city', 'Cities view', ['city_name'])
 
     app.logger.info('searched for: ' + city)
     city_metric.labels(city_name=city).inc()
-    
+
     data_history(city)
 
     return render_template("index.html", weather=weather)
+
 
 @app.route("/dynamodb", methods=["POST"])
 def dynamodb():
@@ -95,6 +94,7 @@ def dynamodb():
         TableName='weather_data', Item={'city': {'S': weather_d}}
     )
     return redirect('/')
+
 
 @app.route('/telaviv', methods=["POST", "GET"])
 def telaviv():
@@ -107,7 +107,7 @@ def telaviv():
     if final_weather_data == 0:
         return render_template("index.html", weather=None, error=1)
 
-#    weather_data = weather(city)
+    #    weather_data = weather(city)
     dynamodb_client = boto3.client('dynamodb', aws_access_key_id=AWS_ACCESS_KEY_ID,
                                    aws_secret_access_key=AWS_SECRET_ACCESS_KEY, region_name='us-east-1')
     dynamodb_client.put_item(
@@ -115,13 +115,14 @@ def telaviv():
     )
     return render_template('index.html')
 
-#@app.route('/view/<id>')
-#def view_product(id):
+
+# @app.route('/view/<id>')
+# def view_product(id):
 #    view_metric.labels(product=id).inc()
 #    return "View %s" % id
 
-#@app.route('/buy/<id>')
-#def buy_product(id):
+# @app.route('/buy/<id>')
+# def buy_product(id):
 #    buy_metric.labels(product=id).inc()
 #    return "Buy %s" % id
 
@@ -135,9 +136,11 @@ def server_error(error):
     app.logger.exception('An exception occurred during a request.')
     return 'Internal Server Error', 500
 
+
 @app.route('/history')
 def download_file():
     return send_from_directory('./history', 'data.json', as_attachment=True)
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
